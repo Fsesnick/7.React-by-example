@@ -1,6 +1,27 @@
+import React, {Component} from 'react';
 import './App.css';
+import GuestList from './GuestList';
 
-function App() {
+class App extends Component{
+
+  state = {
+    guests:[
+      {
+        name: 'Treasure',
+        isConfirmed: false
+      },
+      {
+        name: 'Nic',
+        isConfirmed: false
+      }     
+    ]
+  }
+getTotalInvite = () => this.state.guests.length;
+
+//getAttendingGuests =()=>
+//getUnconfirmedGuests=()=>
+
+render() {
   return (
     <div className="App">
       <header>
@@ -34,35 +55,12 @@ function App() {
             </tr>
           </tbody>
         </table>
-        <ul>
-          <li className="pending"><span>Safia</span></li>
-          <li className="responded"><span>Iver</span>
-            <label>
-              <input type="checkbox" checked/> Confirmed
-            </label>
-            <button>edit</button>
-            <button>remove</button>
-          </li>
-          <li className="responded">
-            <span>Corrina</span>
-            <label>
-              <input type="checkbox" checked/> Confirmed
-            </label>
-            <button>edit</button>
-            <button>remove</button>
-          </li>
-          <li>
-            <span>Joel</span>
-            <label>
-              <input type="checkbox"/> Confirmed
-            </label>
-            <button>edit</button>
-            <button>remove</button>
-          </li>
-        </ul>
+          <GuestList guests={this.state.guests} />
       </div>
     </div>
   );
+}
+
 }
 
 export default App;
