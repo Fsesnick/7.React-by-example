@@ -2,22 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Guest = props =>
-<ul>
-    {props.guests.map((guest, index) => 
-    <li key={index}>
-    <span>{guest.name} </span>
-    <label>
-        <input type="checkbox" checked={guest.isConfirmed} /> 
-    </label>
-    <button>edit</button>
+<li>
+    <span>{props.name} </span>
+        <label>
+            <input 
+            type="checkbox" 
+            checked={props.isConfirmed}
+            onChange={props.handleConfirmation} /> 
+        </label>
+        <button>edit</button>
     <button>remove</button>
-    </li>
-    )}
-</ul>;
+</li>;
 
 
 Guest.propTypes={
-    guests: PropTypes.array.isRequired
+    name: PropTypes.array.isRequired,
+    isConfirmed: PropTypes.bool.isRequired,
+    handleConfirmation: PropTypes.func.isRequired
 }
 
 export default Guest;
