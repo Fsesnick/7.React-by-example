@@ -6,6 +6,7 @@ class App extends Component{
 
   state = {
     isFiltered : false,
+    pendingGuest :"",
     guests:[
       {
         name: 'Treasure',
@@ -37,6 +38,14 @@ class App extends Component{
 toggleConfirmationAt = index =>
   this.toggleGuestPropertyAt("isConfirmed", index);
 
+removeGuestAt = index =>
+  this.setState({
+    guests:[
+      ...this.state.guests.slice(0, index),
+      ...this.state.guests.slice(index +1)
+    ]
+  });
+
 toggleEditingAt = index =>
   this.toggleGuestPropertyAt("isEditing", index);
 
@@ -56,6 +65,23 @@ this.setState({
 toggleFilter =()=>
   this.setState({isFiltered: !this.state.isFiltered});
 
+handleNameInput = e =>
+  this.setState({ pendingGuest: e.target.value});
+
+newGuestSubmitHandler = e =>{
+  e.preventDefault();
+  this.setState({
+    guests:[{
+      name:this.state.pendingGuest,
+      isConfirmed: false,
+      isEditing: false
+    },
+    ...this.state.guests
+  ],
+  pendingGuest: ''
+  });
+}
+
 getTotalInvite = () => this.state.guests.length;
 
 //getAttendingGuests =()=>
@@ -67,8 +93,11 @@ render() {
       <header>
         <h1>RSVP</h1>
         <p>A Treehouse App</p>
-        <form>
-            <input type="text" value="Safia" placeholder="Invite Someone"/>
+        <form onSubmit = {this.newGuestSubmitHandler} >
+            <input type="text"
+            onChange = {this.handleNameInput}
+            value={this.state.pendingGuest}
+            placeholder="Invite Someone"/>
             <button type="submit" name="submit" value="submit">Submit</button>
         </form>
       </header>
@@ -103,7 +132,9 @@ render() {
           toggleConfirmationAt={this.toggleConfirmationAt} 
           toggleEditingAt={this.toggleEditingAt} 
           setNameAt={this.setNameAt}
-          isFiltered={this.state.isFiltered} />
+          isFiltered={this.state.isFiltered} 
+          removeGuestAt ={this.removeGuestAt} 
+          />
       </div>
     </div>
   );
