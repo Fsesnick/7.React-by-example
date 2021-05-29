@@ -85,11 +85,18 @@ newGuestSubmitHandler = e =>{
 
 getTotalInvite = () => this.state.guests.length;
 
-//getAttendingGuests =()=>
-//getUnconfirmedGuests=()=>
+getAttendingGuests =()=>
+this.state.guests.reduce(
+    (total,guest) => guest.isConfirmed ? total +1 : total,
+    0
+);
 
 render() {
+
   const totalInvited = this.getTotalInvited();
+  const numberAttending = this.getAttendingGuests();
+  const numberUnconfirmed = totalInvited - numberAttending;
+
   return (
     <div className="App">
       <header>
@@ -100,7 +107,7 @@ render() {
             onChange = {this.handleNameInput}
             value={this.state.pendingGuest}
             placeholder="Invite Someone"/>
-            <button type="submit" name="submit" value="submit">Submit</button>
+         <button type="submit" name="submit" value="submit">Submit</button>
         </form>
       </header>
       <div className="main">
@@ -112,10 +119,15 @@ render() {
             checked={this.state.isFiltered}
             /> Hide those who haven't responded
           </label>
-        </div>
-       <Counter 
-       totalInvited={totalInvited}/>
-          <GuestList 
+      </div>
+
+      <Counter 
+          totalInvited={totalInvited}
+          numberAttending={numberAttending}
+          numberUnconfirmed={numberUnconfirmed} 
+          />
+      
+      <GuestList 
           guests={this.state.guests} 
           toggleConfirmationAt={this.toggleConfirmationAt} 
           toggleEditingAt={this.toggleEditingAt} 
